@@ -1,6 +1,6 @@
 
-# load script
-source('graph.decay.curves.R')
+# Load required package
+library(serocalculator)
 
 # Define server logic for slider examples ----
 server <- function(input, output,session) {
@@ -28,13 +28,14 @@ server <- function(input, output,session) {
     sliderValues()
   })
 
+  # Limit y1 value to maximum of y0
   observeEvent(input$y1, {
     updateSliderInput(inputId = "y1", max = input$y0)
   })
 
   output$plot <- renderPlot({
     # plot curve
-    p = plot_curve_params_one_ab(object = sliderValues())
+    p = serocalculator:::plot_curve_params_one_ab(object = sliderValues())
     print(p)
   }, res = 96)
 }
