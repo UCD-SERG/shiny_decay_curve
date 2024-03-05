@@ -1,6 +1,6 @@
 
-# Load required package
-library(serocalculator)
+# Load required script
+source("graph.decay.curve.R")
 
 # Define server logic for slider examples ----
 server <- function(input, output,session) {
@@ -35,7 +35,7 @@ server <- function(input, output,session) {
 
   output$plot <- renderPlot({
     # plot curve
-    p = serocalculator:::plot_curve_params_one_ab(object = sliderValues())
+    p = plot_curve_params_one_ab(object = sliderValues())
     print(p)
   }, res = 96)
 }
