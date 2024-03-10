@@ -19,7 +19,7 @@ ui <- fluidPage(
       # Input: Simple integer interval ----
       sliderInput("y0", "Baseline antibody concentration (y0):",
                   min = 0.0, max = 1000,
-                  value = 10, step = 200),
+                  value = 2.7,step = 10),
 
       # Input: Decimal interval with step value ----
       sliderInput("y1", "Peak antibody concentration (y1):",
@@ -29,12 +29,12 @@ ui <- fluidPage(
       # Input: Specification of range within an interval ----
       sliderInput("t1", "Time to peak antibody concentration (t1):",
                   min = 0.0, max = 100,
-                  value = 9.51, step = 0.01),
+                  value = 9.51, step = 0.1),
 
       # Input: Custom currency format for with basic animation ----
       sliderInput("alpha", "Antibody decay rate in days (alpha):",
                   min = 5.494682e-08, max = 0.35,
-                  value =5.807501e-04, step = 0.001),
+                  value =0.1, step = 0.1),
 
       # Input: Animation
       sliderInput("r", "Antibody decay shape (r):",
