@@ -1,0 +1,12 @@
+name: shiny_decay_curve
+title: shiny_decay_curve
+username: ucdserg
+account: ucdserg
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11405672
+bundleId: 8354489
+url: https://ucdserg.shinyapps.io/shiny_decay_curve/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
