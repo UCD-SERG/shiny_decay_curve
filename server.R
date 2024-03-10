@@ -30,7 +30,7 @@ server <- function(input, output,session) {
 
   # Limit y1 value to maximum of y0
   observeEvent(input$y1, {
-    updateSliderInput(inputId = "y1", max = input$y0)
+    updateSliderInput(session,inputId = "y0", max = input$y1)
   })
 
   output$plot <- renderPlot({
