@@ -1,6 +1,9 @@
 
 # Load required script
 library(serocalculator)
+library(scales)
+library(shiny)
+library(shinyWidgets)
 
 # Define server logic for slider examples ----
 server <- function(input, output,session) {
@@ -29,7 +32,7 @@ server <- function(input, output,session) {
   })
 
   # Limit y1 value to maximum of y0
-  observeEvent(input$y1, {
+  observeEvent(input$y0, {
     updateSliderInput(session,inputId = "y0", max = input$y1)
   })
 
