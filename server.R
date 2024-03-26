@@ -23,17 +23,14 @@ server <- function(input, output,session) {
 
   # see https://plannapus.github.io/blog/2021-05-27.html:
   session$onFlushed(
-    function() shinyjs::runjs("logifySlider('y0', sci = true);")
-    ,
+    function() shinyjs::runjs("logifySlider('y0', sci = true);"),
     once=FALSE)
-  # Limit y1 value to maximum of y0
-  {
 
+  # Limit y1 value to maximum of y0
     updateSliderInput(
       session,
       inputId = "y0",
-      max = input$y1)
-  }|>
+      max = input$y1) |>
     observeEvent(eventExpr = input$y1)
 
   output$plot <-
