@@ -14,7 +14,7 @@ server <- function(input, output,session) {
       y0 = input$y0,
       y1 = 10^input$y1,
       t1 = input$t1,
-      alpha = input$alpha,
+      alpha = 10^input$alpha,
       r = input$r) |>
     reactive()
 
@@ -22,17 +22,19 @@ server <- function(input, output,session) {
   output$values <- sliderValues() |> renderTable()
 
   # Limit y1 value to maximum of y0
-  observeEvent(input$y0, {
-    updateSliderInput(session,inputId = "y0", max = min(1000, input$y1))
-  })
+  updateSliderInput(
+    session,
+    inputId = "y0",
+    max = input$y1) |>
+  observeEvent(eventExpr = input$y0)
 
-  output$plot <-
-    serocalculator:::plot_curve_params_one_ab(
-      object = sliderValues(),
-      xlim = c(1/24, max(100, input$t1*2)),
-      n = input$n_pts,
-      log_x = input$log_x,
-      log_y = input$log_y) |>
-      renderPlot(res = 96)
+output$plot <-
+  serocalculator:::plot_curve_params_one_ab(
+    object = sliderValues(),
+    xlim = c(1/24, max(100, input$t1*2)),
+    n_points = 10^input$n_pts,
+    log_x = input$log_x,
+    log_y = input$log_y) |>
+  renderPlot(res = 96)
 
 }

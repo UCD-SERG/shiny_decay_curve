@@ -7,7 +7,7 @@ library(magrittr)
 JS.logify <-
   "
 // function to logify a sliderInput
-function logifySlider (sliderId, sci = false) {
+function logifySlider (sliderId, sci = false, sigfig = 4) {
   if (sci) {
     // scientific style
     $('#'+sliderId).data('ionRangeSlider').update({
@@ -16,7 +16,7 @@ function logifySlider (sliderId, sci = false) {
   } else {
     // regular number style
     $('#'+sliderId).data('ionRangeSlider').update({
-      'prettify': function (num) { return (Math.pow(10, num)); }
+      'prettify': function (num) { return (Number.parseFloat(Math.pow(10, num)).toFixed(sigfig)); }
     })
   }
 }"
@@ -29,10 +29,16 @@ $(document).ready(function() {
   // wait a few ms to allow other scripts to execute
   setTimeout(function() {
     // include call for each slider
-logifySlider('y1', sci = false)
+logifySlider('y0', sci = true)
+logifySlider('y1', sci = true)
 logifySlider('alpha', sci = false)
-    logifySlider('r', sci = false)
-  }, 5)})
+logifySlider('r', sci = false)
+logifySlider('n_pts', sci = false, sigfig = 0)
+  }, 5);
+$('#y1').click(function() {
+logifySlider('y0', sci = true)
+})
+})
 "
 # Define UI for app --
 ui <- fluidPage(
@@ -51,13 +57,17 @@ ui <- fluidPage(
 
 
       sliderInput("y0", "Baseline antibody concentration (y0):",
-                  min = .01, max = 100,
-                  value = 1,step = 0.01),
+                  min = .001 |> log10(),
+                  max = 1000 |> log10(),
+                  value = 10 |> log10(),
+                  step = 0.01),
 
       # Input: Decimal interval with step value ----
       sliderInput("y1", "Peak antibody concentration (y1):",
-                  min = 2, max = 6,
-                  value = 4, step = .01),
+                  min = 100 |> log10(),
+                  max = (10^6) |> log10(),
+                  value = 10000 |> log10(),
+                  step = .01),
 
       # Input: Specification of range within an interval ----
       sliderInput("t1", "Time to peak antibody concentration (t1):",
@@ -65,9 +75,12 @@ ui <- fluidPage(
                   value = 9.51, step = 0.125),
 
       # Input: Custom currency format for with basic animation ----
-      sliderInput("alpha", "Antibody decay rate in days (alpha):",
-                  min = 10^-8, max = 10^0, # 0.0001
-                  value = 0.1, step = 0.0001),
+      sliderInput("alpha",
+                  "Antibody decay rate in days (alpha):",
+                  min = 0.0001 |> log10(),
+                  max = 1 |> log10(),
+                  value = 0.1 |> log10(),
+                  step = 0.01),
 
       # Input: Animation
       sliderInput("r", "Antibody decay shape (r):",
@@ -75,8 +88,11 @@ ui <- fluidPage(
                   value = 1.7, step = 0.01),
 
       sliderInput("n_pts", "# curve graphing points:",
-                  min = 10, max = 10000,
-                  value = 1000, step = 1),
+                  min = 1,
+                  max = 6,
+                  value = 3,
+                  step = .5,
+                  round = TRUE),
 
       br()
     ),
