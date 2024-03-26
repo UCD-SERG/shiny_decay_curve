@@ -29,8 +29,9 @@ $(document).ready(function() {
   // wait a few ms to allow other scripts to execute
   setTimeout(function() {
     // include call for each slider
-    logifySlider('alpha', sci = true)
-    logifySlider('r', sci = true)
+logifySlider('y1', sci = false)
+logifySlider('alpha', sci = false)
+    logifySlider('r', sci = false)
   }, 5)})
 "
 # Define UI for app --
@@ -50,28 +51,32 @@ ui <- fluidPage(
 
 
       sliderInput("y0", "Baseline antibody concentration (y0):",
-                  min = 0.0, max = 1000,
-                  value = log10(2.7),step = 0.01),
+                  min = .01, max = 100,
+                  value = 1,step = 0.01),
 
       # Input: Decimal interval with step value ----
       sliderInput("y1", "Peak antibody concentration (y1):",
-                  min = round(log10(0.5),2), max = round(log10(1200),2),
-                  value = log10(63.48), step = 0.01),
+                  min = 2, max = 6,
+                  value = 4, step = .01),
 
       # Input: Specification of range within an interval ----
       sliderInput("t1", "Time to peak antibody concentration (t1):",
-                  min = 0.0, max = log10(100),
-                  value = log10(9.51), step = 0.125),
+                  min = 0.0, max = 200,
+                  value = 9.51, step = 0.125),
 
       # Input: Custom currency format for with basic animation ----
       sliderInput("alpha", "Antibody decay rate in days (alpha):",
-                  min = 0.1, max = 0.35, # 0.0001
+                  min = 10^-8, max = 10^0, # 0.0001
                   value = 0.1, step = 0.0001),
 
       # Input: Animation
       sliderInput("r", "Antibody decay shape (r):",
-                  min = 1.0, max = 19,
-                  value = 1.7, step = 0.0001),
+                  min = 1.0, max = 3,
+                  value = 1.7, step = 0.01),
+
+      sliderInput("n_pts", "# curve graphing points:",
+                  min = 10, max = 10000,
+                  value = 1000, step = 1),
 
       br()
     ),
@@ -80,7 +85,17 @@ ui <- fluidPage(
     mainPanel(
 
       # Output: Table summarizing the values entered ----
-      plotOutput("plot", click = "plot_click"),
+      shiny::checkboxInput(
+        inputId = "log_y",
+        label = "logarithmic y-axis",
+        value = FALSE),
+      plotOutput("plot", click = NULL),
+      shiny::checkboxInput(
+        inputId = "log_x",
+        label = "logarithmic x-axis",
+        value = FALSE) |>
+        shiny::column(offset = 8, width = 4) |>
+        shiny::fluidRow(),
       tableOutput("values")
 
     )

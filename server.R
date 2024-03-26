@@ -9,36 +9,30 @@ library(shinyWidgets)
 server <- function(input, output,session) {
 
   # Reactive expression to create data frame of all input values ----
-  sliderValues <- reactive({
-
+  sliderValues <-
     data.frame(
-
-      matrix(data = c(input$y0,
-                      input$y1,
-                      input$t1,
-                      input$alpha,
-                      input$r),nrow = 1,ncol = 5) %>%
-        set_colnames(c("y0",
-                       "y1",
-                       "t1",
-                       "alpha",
-                       "r"))
-    )
-  })
+      y0 = input$y0,
+      y1 = 10^input$y1,
+      t1 = input$t1,
+      alpha = input$alpha,
+      r = input$r) |>
+    reactive()
 
   # Show the values in an HTML table ----
-  output$values <- renderTable({
-    sliderValues()
-  })
+  output$values <- sliderValues() |> renderTable()
 
   # Limit y1 value to maximum of y0
   observeEvent(input$y0, {
-    updateSliderInput(session,inputId = "y0", max = input$y1)
+    updateSliderInput(session,inputId = "y0", max = min(1000, input$y1))
   })
 
-  output$plot <- renderPlot({
-    # plot curve
-    p = serocalculator:::plot_curve_params_one_ab(object = sliderValues())
-    print(p)
-  }, res = 96)
+  output$plot <-
+    serocalculator:::plot_curve_params_one_ab(
+      object = sliderValues(),
+      xlim = c(1/24, max(100, input$t1*2)),
+      n = input$n_pts,
+      log_x = input$log_x,
+      log_y = input$log_y) |>
+      renderPlot(res = 96)
+
 }
