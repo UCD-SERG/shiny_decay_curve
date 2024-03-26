@@ -30,9 +30,7 @@ setTimeout(function() {
 expSlider('logC0', sci = true)
 }, 5);
 $('#C0_widget_setval').click(function() {
-$('#logC0').data('ionRangeSlider').update({
-'prettify': function(num) {return num;}
-})
+expSlider('logC0', sci = true)
 })})
 "
 

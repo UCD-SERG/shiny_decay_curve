@@ -35,8 +35,11 @@ logifySlider('alpha', sci = false)
 logifySlider('r', sci = false)
 logifySlider('n_pts', sci = false, sigfig = 0)
   }, 5);
-$('#y1').click(function() {
+$('#y1').onFinish(function() {
+setTimeout(function() {
+// include call for each slider
 logifySlider('y0', sci = true)
+}, 100);
 })
 })
 "
@@ -55,7 +58,7 @@ ui <- fluidPage(
       tags$head(tags$script(HTML(JS.logify))),
       tags$head(tags$script(HTML(JS.onload))),
 
-
+      actionButton("C0_widget_setval", "Set this value"),
       sliderInput("y0", "Baseline antibody concentration (y0):",
                   min = .001 |> log10(),
                   max = 1000 |> log10(),
