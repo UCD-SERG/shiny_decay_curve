@@ -9,36 +9,46 @@ library(shinyWidgets)
 server <- function(input, output,session) {
 
   # Reactive expression to create data frame of all input values ----
-  sliderValues <- reactive({
-
+  sliderValues <-
     data.frame(
-
-      matrix(data = c(input$y0,
-                      input$y1,
-                      input$t1,
-                      input$alpha,
-                      input$r),nrow = 1,ncol = 5) %>%
-        set_colnames(c("y0",
-                       "y1",
-                       "t1",
-                       "alpha",
-                       "r"))
-    )
-  })
+      y0 = 10^input$y0,
+      y1 = 10^input$y1,
+      t1 = 10^input$t1,
+      alpha = 10^input$alpha,
+      r = 10^input$r) |>
+    reactive(label = "sliderValues")
 
   # Show the values in an HTML table ----
-  output$values <- renderTable({
-    sliderValues()
-  })
+  output$values <- sliderValues() |> renderTable()
+
+  # see https://plannapus.github.io/blog/2021-05-27.html:
+  session$onFlushed(
+    function() shinyjs::runjs("logifySlider('y0', sci = true);"),
+    once=FALSE)
 
   # Limit y1 value to maximum of y0
-  observeEvent(input$y0, {
-    updateSliderInput(session,inputId = "y0", max = input$y1)
-  })
+    updateSliderInput(
+      session,
+      inputId = "y0",
+      max = input$y1) |>
+    observeEvent(eventExpr = input$y1)
 
-  output$plot <- renderPlot({
-    # plot curve
-    p = serocalculator:::plot_curve_params_one_ab(object = sliderValues())
-    print(p)
-  }, res = 96)
+  output$plot <-
+    {
+      serocalculator:::plot_curve_params_one_ab(
+        object = sliderValues(),
+        n_points = 10^input$n_pts,
+        log_x = FALSE,
+        log_y = FALSE) +
+        scale_y_continuous(
+          limits = c(NA, input$y_max),
+          labels = scales::label_comma(),
+          trans = ifelse(input$log_y, "log10", "identity")) +
+        scale_x_continuous(
+          limits = c(1/24, input$x_max),
+          labels = scales::label_comma(),
+          trans = ifelse(input$log_x, "log10", "identity"))
+    }|>
+    renderPlot(res = 96)
+
 }
