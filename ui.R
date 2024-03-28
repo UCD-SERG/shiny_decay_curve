@@ -2,7 +2,8 @@
 # load libraries
 library(ggplot2)
 library(magrittr)
-
+library(reactlog)
+options(shiny.reactlog = TRUE)
 # logifySlider javascript function
 JS.logify <-
   "

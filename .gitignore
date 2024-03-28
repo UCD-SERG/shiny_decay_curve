@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+shiny_decay_curve.Rcheck/
+shiny_decay_curve*.tar.gz
+shiny_decay_curve*.tgz
