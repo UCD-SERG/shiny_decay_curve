@@ -56,40 +56,40 @@ ui <- fluidPage(
       tags$head(tags$script(HTML(JS.onload))),
       shiny::withMathJax(),
       sliderInput("y0", "Baseline antibody concentration \\((y_{0})\\):",
-                  min = .001 %>% log10(),
-                  max = 1000 %>% log10(),
-                  value = 10 %>% log10(),
+                  min = .001 |> log10(),
+                  max = 1000 |> log10(),
+                  value = 10 |> log10(),
                   step = 0.1),
 
       # Input: Decimal interval with step value ----
       sliderInput("y1", "Peak antibody concentration \\((y_{1})\\):",
-                  min = 100 %>% log10(),
-                  max = (10^6) %>% log10(),
-                  value = 10000 %>% log10(),
+                  min = 100 |> log10(),
+                  max = (10^6) |> log10(),
+                  value = 10000 |> log10(),
                   step = .1),
 
       # Input: Specification of range within an interval ----
       sliderInput("t1", "Time to peak antibody concentration \\((t_1)\\):",
-                  min = (1) %>% log10(),
-                  max = 200 %>% log10(),
-                  value = 9.51 %>% log10(),
+                  min = (1) |> log10(),
+                  max = 200 |> log10(),
+                  value = 9.51 |> log10(),
                   step = 0.01,
                   post = " days"),
 
       # Input: Custom currency format for with basic animation ----
       sliderInput("alpha",
                   "Antibody decay rate in days \\((\\alpha)\\):",
-                  min = 0.0001 %>% log10(),
-                  max = 1 %>% log10(),
-                  value = 0.01 %>% log10(),
+                  min = 0.0001 |> log10(),
+                  max = 1 |> log10(),
+                  value = 0.01 |> log10(),
                   step = 0.01),
 
       # Input: Animation
       sliderInput("r",
                   "Antibody decay shape \\((r)\\):",
-                  min = 1.0 %>% log10(),
-                  max = 3 %>% log10(),
-                  value = 1.7 %>% log10(),
+                  min = 1.0 |> log10(),
+                  max = 3 |> log10(),
+                  value = 1.7 |> log10(),
                   step = 0.01),
 
       sliderInput("n_pts", "# curve graphing points:",
@@ -124,13 +124,13 @@ ui <- fluidPage(
         shiny::checkboxInput(
           inputId = "log_x",
           label = "logarithmic x-axis",
-          value = FALSE) %>%
+          value = FALSE) |>
           shiny::column(offset = 5, width = 3),
 
         shiny::numericInput(
           "x_max",
           label = "x-axis maximum",
-          value = 100) %>%
+          value = 100) |>
           column(width = 4)
       ),
 

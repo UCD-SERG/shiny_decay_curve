@@ -15,11 +15,11 @@ server <- function(input, output,session) {
       y1 = 10^input$y1,
       t1 = 10^input$t1,
       alpha = 10^input$alpha,
-      r = 10^input$r) %>%
+      r = 10^input$r) |>
     reactive(label = "sliderValues")
 
   # Show the values in an HTML table ----
-  output$values <- sliderValues() %>% renderTable()
+  output$values <- sliderValues() |> renderTable()
 
   # see https://plannapus.github.io/blog/2021-05-27.html:
   session$onFlushed(
@@ -30,7 +30,7 @@ server <- function(input, output,session) {
     updateSliderInput(
       session,
       inputId = "y0",
-      max = input$y1) %>%
+      max = input$y1) |>
     observeEvent(eventExpr = input$y1)
 
   output$plot <-
@@ -44,7 +44,7 @@ server <- function(input, output,session) {
                            trans = ifelse(input$log_y, "log10", "identity")) +
         scale_x_continuous(limits = c(1/24, input$x_max),
                            trans = ifelse(input$log_x, "log10", "identity"))
-    }%>%
+    }|>
     renderPlot(res = 96)
 
 }
