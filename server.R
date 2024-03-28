@@ -40,10 +40,14 @@ server <- function(input, output,session) {
         n_points = 10^input$n_pts,
         log_x = FALSE,
         log_y = FALSE) +
-        scale_y_continuous(limits = c(NA, input$y_max),
-                           trans = ifelse(input$log_y, "log10", "identity")) +
-        scale_x_continuous(limits = c(1/24, input$x_max),
-                           trans = ifelse(input$log_x, "log10", "identity"))
+        scale_y_continuous(
+          limits = c(NA, input$y_max),
+          labels = scales::label_comma(),
+          trans = ifelse(input$log_y, "log10", "identity")) +
+        scale_x_continuous(
+          limits = c(1/24, input$x_max),
+          labels = scales::label_comma(),
+          trans = ifelse(input$log_x, "log10", "identity"))
     }|>
     renderPlot(res = 96)
 

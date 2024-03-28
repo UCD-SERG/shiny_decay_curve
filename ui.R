@@ -92,11 +92,12 @@ ui <- fluidPage(
                   value = 1.7 |> log10(),
                   step = 0.01),
 
-      sliderInput("n_pts", "# curve graphing points:",
+      sliderInput("n_pts",
+                  "# curve graphing points:",
                   min = 1,
                   max = 6,
-                  value = 3,
-                  step = .5,
+                  value = 4,
+                  step = .1,
                   round = TRUE),
 
       br()
