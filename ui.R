@@ -32,7 +32,7 @@ $(document).ready(function() {
   // include call for each slider
   logifySlider('y0', sci = true)
   logifySlider('y1', sci = true)
-  logifySlider('t1', sci = false, sigfig = 0)
+  logifySlider('t1', sci = false, sigfig = 1)
   logifySlider('alpha', sci = false)
   logifySlider('r', sci = false, sigfig = 2)
   logifySlider('n_pts', sci = false, sigfig = 0)

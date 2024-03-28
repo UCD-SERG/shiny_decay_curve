@@ -16,7 +16,7 @@ server <- function(input, output,session) {
       t1 = 10^input$t1,
       alpha = 10^input$alpha,
       r = 10^input$r) %>%
-    reactive()
+    reactive(label = "sliderValues")
 
   # Show the values in an HTML table ----
   output$values <- sliderValues() %>% renderTable()
