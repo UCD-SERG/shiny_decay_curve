@@ -87,7 +87,7 @@ ui <- fluidPage(
       # Input: Animation
       sliderInput("r",
                   "Antibody decay shape \\((r)\\):",
-                  min = 1.0 |> log10(),
+                  min = 0.1 |> log10(),
                   max = 3 |> log10(),
                   value = 1.7 |> log10(),
                   step = 0.01),
@@ -135,7 +135,12 @@ ui <- fluidPage(
           column(width = 4)
       ),
 
-      tableOutput("values")
+      tableOutput("values"),
+
+      shiny::p("Source code: "),
+      shiny::a("https://github.com/UCD-SERG/shiny_decay_curve",
+               href = "https://github.com/UCD-SERG/shiny_decay_curve")
+
 
     )
   )
