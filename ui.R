@@ -135,7 +135,12 @@ ui <- fluidPage(
           column(width = 4)
       ),
 
-      tableOutput("values")
+      tableOutput("values"),
+
+      shiny::p("Source code: "),
+      shiny::a("https://github.com/UCD-SERG/shiny_decay_curve",
+               href = "https://github.com/UCD-SERG/shiny_decay_curve")
+
 
     )
   )
